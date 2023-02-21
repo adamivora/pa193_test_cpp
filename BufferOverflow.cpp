@@ -9,7 +9,7 @@
 using namespace std;
 // Note: GCC and MSVC uses different memory alignment
 // Try "12345678DevilEvecosia" as a password for gcc build
-// Try "1234567812345678Devil I am. Ha Ha" as a password for MSVC debug x86 build. 
+// Try "1234567812345678Devil I am. Ha Ha" as a password for MSVC debug x86 build.
 // If doesn't work, investigate why :)
 
 void demoBufferOverflowData() {
@@ -18,6 +18,7 @@ void demoBufferOverflowData() {
 #define ADMIN_USER             'a'
 	int             userRights = NORMAL_USER;
 #define USER_INPUT_MAX_LENGTH  8
+#define STRING(X) #X
 	char    userName[USER_INPUT_MAX_LENGTH];
 	char    passwd[USER_INPUT_MAX_LENGTH];
 
@@ -36,12 +37,12 @@ void demoBufferOverflowData() {
 	printf("login as: ");
 	fflush(stdout);
 	//gets(userName); // use scanf("%s", userName); if gets fails with identifier not found
-	scanf("%s", userName);
+	scanf("%" STRING(USER_INPUT_MAX_LENGTH - 1) "s", userName);
 
 	// Get password
 	printf("%s@vulnerable.machine.com: ", userName);
 	fflush(stdout);
-	//gets(passwd);  
+	//gets(passwd);
 	scanf("%s", passwd); // use scanf("%s", passwd); if gets fails with identifier not found
 
 	// Check user rights (set to NORMAL_USER and not changed in code)
@@ -95,7 +96,7 @@ void demoAdjacentMemoryOverflow(char* userName, char* password) {
 		printf("Wrong password.\n");
 	}
 
-	// FIX: Do not allow to have non-terminated string 
+	// FIX: Do not allow to have non-terminated string
 	// Clear buffer for text with zeroes (terminating zero will be there)
 	// strncpy(buf,arg1,sizeof(buf) - 1);
 }
@@ -153,7 +154,7 @@ int main() {
 
 	//
 	// Not only arrays may overflow - integers as well
-	//  
+	//
 	//
 	/*
 	// printf("\n\n#### demoDataTypeOverflow ####\n");
